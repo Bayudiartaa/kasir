@@ -132,17 +132,17 @@ class Transaksi extends CI_Controller
     $h1 = $this->db->get_where('master_jual', ['nofak_jual' => $nofak])->row_array();
     $total_harga1 = $h1['total_harga'];
 
-    $h2 = $this->db->get_where('tbl_det_jual', ['id_det_jual' => $id])->row_array();
+    $h2 = $this->db->get_where('detail_jual', ['id_detail_jual' => $id])->row_array();
     $jumlah_item  = $h2['jumlah_item'];
     $harga_jual   = $h2['harga_jual'];
 
     $total_harga2 = $jumlah_item * $harga_jual;
     $total_harga  = $total_harga1 - $total_harga2;
 
-    $this->db->where('id_det_jual', $id);
-    $this->db->delete('tbl_det_jual');
+    $this->db->where('id_detail_jual', $id);
+    $this->db->delete('detail_jual');
 
-    $h3 = $this->db->get_where('tbl_det_jual', ['nofak_jual' => $nofak])->num_rows();
+    $h3 = $this->db->get_where('detail_jual', ['nofak_jual' => $nofak])->num_rows();
     if ($h3 > 0) {
       $this->db->set('total_harga', $total_harga);
       $this->db->where('nofak_jual', $nofak);
